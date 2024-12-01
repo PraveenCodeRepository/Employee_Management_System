@@ -52,10 +52,10 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/getEmployeeByNameOrDepartment")
-	public ResponseEntity<EmployeeDto> getEmployeeByNameOrDepartmment(@RequestParam (required = false) String name ,
-			@RequestParam (required = false) String department){
+	public ResponseEntity<EmployeeDto> getEmployeeByNameOrMobileNumber(@RequestParam (required = false) String name ,
+			@RequestParam (required = false) Long mobileNo){
 		try {
-			EmployeeDto employeeDtoFound = employeeService.getEmployeeByNameOrDepartment(name, department);
+			EmployeeDto employeeDtoFound = employeeService.getEmployeeByNameOrMobileNumber(name, mobileNo);
 			return new ResponseEntity<>(employeeDtoFound , HttpStatus.OK);
 		}
 		catch(RuntimeException e) {
@@ -78,7 +78,7 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable Integer id , @RequestBody EmployeeDto employeeDto){
 		try {
 		EmployeeDto employeeDtoUpdated = employeeService.updateEmployeeById(id, employeeDto);
-		 return new ResponseEntity<>(employeeDtoUpdated , HttpStatus.CREATED);
+		 return new ResponseEntity<>(employeeDtoUpdated , HttpStatus.OK);
 		}
 		catch(RuntimeException e) {
 			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);

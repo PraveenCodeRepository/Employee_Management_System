@@ -15,28 +15,35 @@ public class EmployeeService {
 	
 	  private final EmployeeMapper  employeeMapper;
 	
-	  public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper
-	  employeeMapper) { this.employeeRepository = employeeRepository;
-	  this.employeeMapper = employeeMapper; }
+	  public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) { 
+		  this.employeeRepository = employeeRepository;
+	      this.employeeMapper = employeeMapper;
+	  }
 	  
 	  
 	 
 
 	public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
-    	  
-    	  if(employeeDto == null) throw new NullPointerException("EmployeeDto is null");
-    	  
+		
+		      if(employeeDto==null) throw new RuntimeException("EmployeeDto is null");
+		      
+		     Optional<Employee> optionalEmployee = employeeRepository.searchEmployeeByMobileNumber(employeeDto.getMobileNo());
+		     
+		       if(optionalEmployee.isPresent()) {
+		    	   throw new RuntimeException("Employee is already exists in database");
+		       }
+    	     	  
     	   Employee employee = employeeMapper.toEmployeeEntity(employeeDto);
     	   
     	   Employee employeeSaved = employeeRepository.save(employee);
     	   
-            	 return  employeeMapper.toEmployeeDto(employeeSaved);
+            return  employeeMapper.toEmployeeDto(employeeSaved);
     	
     }
 	
 	public EmployeeDto getEmployeeById(Integer id) {
 		
-		  Optional<Employee> optionalEmployee =employeeRepository.findById(id);
+		  Optional<Employee> optionalEmployee = employeeRepository.findById(id);
 		  
 		       if(optionalEmployee.isPresent()) {
 		    	   
@@ -49,17 +56,17 @@ public class EmployeeService {
 		
 	}
 	
-	public EmployeeDto getEmployeeByNameOrDepartment(String name , String department) {
+	public EmployeeDto getEmployeeByNameOrMobileNumber(String name , Long mobileNo) {
 		
 		            Optional<Employee> optionalEmployee;
 		           
 		            if(name!=null) 
-		            	 optionalEmployee =employeeRepository.searchEmployeeByName(name);
+		            	 optionalEmployee = employeeRepository.searchEmployeeByName(name);
 		            
-		            else if(department!=null) 
-		            	optionalEmployee =employeeRepository.searchEmployeeByDepartment(department);
+		            else if(mobileNo!=null) 
+		            	optionalEmployee = employeeRepository.searchEmployeeByMobileNumber(mobileNo);
 		            
-		            else throw new RuntimeException("Name or department is null");
+		            else throw new RuntimeException("Name or mobile number is null");
 		  
 		            if(optionalEmployee.isPresent()) {
 		    	   
@@ -68,7 +75,7 @@ public class EmployeeService {
 		    	  return employeeMapper.toEmployeeDto(employeeFound);
 		       }
 		       
-		       else throw new RuntimeException("Employee not found by name : "+name+ "and  department : "+department );
+		       else throw new RuntimeException("Employee not found by name : "+name+ "and  mobile number : "+mobileNo );
 		
 	}
 	
@@ -83,7 +90,7 @@ public class EmployeeService {
 	public EmployeeDto updateEmployeeById(Integer id, EmployeeDto employeeDto) {
 	    
 	    Employee existingEmployee = employeeRepository.findById(id)
-	        .orElseThrow(() -> new RuntimeException("Employee not found"));
+	        .orElseThrow(() -> new RuntimeException("Employee not found with id : "+id));
 
 	    
 	    if (employeeDto.getName() != null) {
@@ -92,8 +99,8 @@ public class EmployeeService {
 	    if (employeeDto.getSalary() != null) {
 	        existingEmployee.setSalary(employeeDto.getSalary());
 	    }
-	    if (employeeDto.getDepartment() != null) {
-	        existingEmployee.setDepartment(employeeDto.getDepartment());
+	    if (employeeDto.getMobileNo() != null) {
+	        existingEmployee.setMobileNo(employeeDto.getMobileNo());
 	    }
 
 	    
@@ -118,6 +125,8 @@ public class EmployeeService {
 			      
 			    
 		   }
+		   
+		   
 	
 
 	}

@@ -26,6 +26,6 @@ public class Employee {
 	
 	private Double salary;
 	
-	private String department;
+	private Long mobileNo;
 
 }

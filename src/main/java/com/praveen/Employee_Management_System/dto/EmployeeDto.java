@@ -24,7 +24,7 @@ public class EmployeeDto implements Serializable {
 	
 	private Double salary;
 	
-	private String department;
+	private Long mobileNo;
 
 
 }

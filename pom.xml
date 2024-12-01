@@ -78,10 +78,31 @@
             <scope>provided</scope>
         </dependency>
         
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding -->
         <dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok-mapstruct-binding</artifactId>
     <version>0.2.0</version>
+</dependency>
+
+ <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    
+      <!-- Jackson for JSON binding -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>5.14.2</version>
+    <scope>test</scope>
 </dependency>
 
     </dependencies>
